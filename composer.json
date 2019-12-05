@@ -1,0 +1,33 @@
+{
+  "name": "javareact/easypay",
+  "type": "library",
+  "description": "支付宝支付、微信支付一行接入",
+  "keywords": [
+    "alipay",
+    "weixin",
+    "支付宝支付",
+    "微信支付"
+  ],
+  "homepage": "https://github.com/javareact/easy-pay",
+  "license": "MIT",
+  "require": {
+    "php": ">=7.2",
+    "ext-bcmath": "*",
+    "ext-mbstring": "*",
+    "ext-json": "*",
+    "guzzlehttp/guzzle": "*",
+    "ext-libxml": "*",
+    "ext-simplexml": "*",
+    "ext-xml": "*",
+    "ext-openssl": "*"
+  },
+  "require-dev": {
+    "endroid/qrcode": "~1.9",
+    "codeception/codeception": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Payment\\": "src/"
+    }
+  }
+}
