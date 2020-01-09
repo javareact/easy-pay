@@ -11,15 +11,15 @@
   "homepage": "https://github.com/javareact/easy-pay",
   "license": "MIT",
   "require": {
-    "php": ">=7.2",
+    "php": ">=7.1",
     "ext-bcmath": "*",
     "ext-mbstring": "*",
     "ext-json": "*",
-    "guzzlehttp/guzzle": "*",
     "ext-libxml": "*",
     "ext-simplexml": "*",
     "ext-xml": "*",
-    "ext-openssl": "*"
+    "ext-openssl": "*",
+    "guzzlehttp/guzzle": "*"
   },
   "require-dev": {
     "endroid/qrcode": "~1.9",
