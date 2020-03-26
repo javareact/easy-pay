@@ -22,7 +22,7 @@ $data = [
     'remark'       => '转账拉，有钱了',
     'product_code' => 'TRANS_ACCOUNT_NO_PWD',
     'payee_info'   => [
-        'identity'      => '2088102169940354',
+        'identity'      => '2088102169940354',// ALIPAY_USERID: 2088102169940354      ALIPAY_LOGONID：aaqlmq0729@sandbox.com
         'identity_type' => 'ALIPAY_USER_ID',
         //                'name'          => '张三',
     ],

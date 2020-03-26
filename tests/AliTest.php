@@ -30,7 +30,7 @@ class AliTest extends BaseTest
             //单笔无密转账到支付宝账户固定为：TRANS_ACCOUNT_NO_PWD；
             //单笔无密转账到银行卡固定为：TRANS_BANKCARD_NO_PWD
             'payee_info'   => [
-                'identity'      => '2088102169940354',
+                'identity'      => '2088102169940354',//// ALIPAY_USERID: 2088102169940354      ALIPAY_LOGONID：aaqlmq0729@sandbox.com
                 'identity_type' => 'ALIPAY_USER_ID',//参与方的标识类型，目前支持如下类型：1、ALIPAY_USER_ID 支付宝的会员ID,2、ALIPAY_LOGON_ID：支付宝登录号，支持邮箱和手机号格式
                 //                'name'          => '张三',//参与方真实姓名，如果非空，将校验收款支付宝账号姓名一致性。当identity_type=ALIPAY_LOGON_ID时，本字段必填。
             ],
