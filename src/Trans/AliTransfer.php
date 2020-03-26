@@ -14,7 +14,8 @@ use Payment\Config;
  */
 class AliTransfer extends AliBaseStrategy
 {
-    protected $method = 'alipay.fund.trans.toaccount.transfer';
+    /** @var string 使用新版支付宝转账,单日额度100万 */
+    protected $method = 'alipay.fund.trans.uni.transfer';
 
     public function getBuildDataClass()
     {

@@ -599,6 +599,7 @@ message_key | 交易流水，合作方内部唯一流水 | Y
 - [退款查询](https://docs.open.alipay.com/api_1/alipay.trade.fastpay.refund.query)
 - [下载对账单](https://docs.open.alipay.com/api_15/alipay.data.dataservice.bill.downloadurl.query)
 - [转账到支付宝](https://docs.open.alipay.com/api_28/alipay.fund.trans.toaccount.transfer)
+- [单笔转账接口](https://opendocs.alipay.com/apis/api_28/alipay.fund.trans.uni.transfer)
 - [支付宝转账查询](https://docs.open.alipay.com/api_28/alipay.fund.trans.order.query/)
 - [交易创建](https://docs.open.alipay.com/api_1/alipay.trade.create) 条码/扫码支付会用到
 
