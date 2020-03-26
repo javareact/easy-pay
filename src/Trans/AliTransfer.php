@@ -37,7 +37,6 @@ class AliTransfer extends AliBaseStrategy
         } catch (PayException $e) {
             throw $e;
         }
-
         return $this->createBackData($retData);
     }
 
@@ -66,7 +65,7 @@ class AliTransfer extends AliBaseStrategy
             'response'   => [
                 'trans_no'       => $data['out_biz_no'],// 商户转账唯一订单号
                 'transaction_id' => $data['order_id'],// 支付宝转账单据号
-                'pay_date'       => $data['pay_date'],// 支付时间
+                'pay_date'       => $data['trans_date'] ?? date('Y-m-d H:i:s'),// 支付时间
                 'channel'        => Config::ALI_TRANSFER,
             ],
         ];
