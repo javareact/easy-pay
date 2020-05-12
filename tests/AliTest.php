@@ -21,7 +21,7 @@ class AliTest extends BaseTest
     public function testTransfer()
     {
         $data = [
-            'trans_no'     => time(),
+            'trans_no'     => time() . mt_rand(1000, 9999),
             'trans_amount' => 0.1,
             'remark'       => '转账拉，有钱了',
             'product_code' => 'TRANS_ACCOUNT_NO_PWD',

@@ -9,9 +9,8 @@ use Payment\Common\BaseData;
 use Payment\Common\BaseStrategy;
 use Payment\Common\PayException;
 use Payment\Config;
+use Payment\Utils\AntCertificationUtil;
 use Payment\Utils\ArrayUtil;
-use Payment\Utils\Rsa2Encrypt;
-use Payment\Utils\RsaEncrypt;
 use Payment\Utils\StrUtil;
 
 /**
@@ -166,19 +165,38 @@ abstract class AliBaseStrategy implements BaseStrategy
      */
     protected function verifySign(array $data, $sign)
     {
+        $antCertificationUtil = new AntCertificationUtil();
+        $pubKey               = $antCertificationUtil->getPublicKey($this->config->alipayCertPath);
+        $res                  = "-----BEGIN PUBLIC KEY-----\n" .
+            wordwrap($pubKey, 64, "\n", true) .
+            "\n-----END PUBLIC KEY-----";
+        if (empty($res)) {
+            throw new PayException('支付宝RSA公钥错误。请检查公钥文件格式是否正确');
+        };
+        //调用openssl内置方法验签，返回bool值
         $preStr = \GuzzleHttp\json_encode($data, JSON_UNESCAPED_UNICODE);// 主要是为了解决中文问题
+        return (openssl_verify($preStr, base64_decode($sign), $res, OPENSSL_ALGO_SHA256) === 1);
+    }
 
-        if ($this->config->signType === 'RSA') {// 使用RSA
-            $rsa = new RsaEncrypt($this->config->rsaAliPubKey);
-
-            return $rsa->rsaVerify($preStr, $sign);
-        } elseif ($this->config->signType === 'RSA2') {// 使用rsa2方式
-            $rsa = new Rsa2Encrypt($this->config->rsaAliPubKey);
-
-            return $rsa->rsaVerify($preStr, $sign);
-        } else {
-            return false;
+    public function getSignContent($params)
+    {
+        ksort($params);
+        unset($params['sign']);
+        unset($params['sign_type']);
+        $stringToBeSigned = "";
+        $i                = 0;
+        foreach ($params as $k => $v) {
+            if ("@" != substr($v, 0, 1)) {
+                if ($i == 0) {
+                    $stringToBeSigned .= "$k" . "=" . "$v";
+                } else {
+                    $stringToBeSigned .= "&" . "$k" . "=" . "$v";
+                }
+                $i++;
+            }
         }
+        unset ($k, $v);
+        return $stringToBeSigned;
     }
 
     /**

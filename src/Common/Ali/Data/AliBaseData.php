@@ -3,6 +3,7 @@
 namespace Payment\Common\Ali\Data;
 
 use Payment\Common\BaseData;
+use Payment\Utils\AntCertificationUtil;
 use Payment\Utils\ArrayUtil;
 use Payment\Utils\Rsa2Encrypt;
 use Payment\Utils\RsaEncrypt;
@@ -19,7 +20,9 @@ use Payment\Utils\RsaEncrypt;
  * @property string $timestamp  发送请求的时间，格式"yyyy-MM-dd HH:mm:ss"
  * @property string $version   调用的接口版本，固定为：1.0
  * @property string $notifyUrl  支付宝服务器主动通知商户服务器里指定的页面http/https路径
- *
+ * @property string $merchantCertPath  应用公钥证书路径
+ * @property string $alipayRootCertPath  支付宝根证书路径
+ * @property string $alipayCertPath  支付宝公钥证书路径
  * @property string $rsaPrivateKey  rsa私钥路径
  * @property string $rsaAliPubKey  rsa支付宝公钥路径
  *
@@ -49,13 +52,11 @@ abstract class AliBaseData extends BaseData
     {
         switch ($this->signType) {
             case 'RSA':
-                $rsa = new RsaEncrypt($this->rsaPrivateKey);
-
+                $rsa  = new RsaEncrypt($this->rsaPrivateKey);
                 $sign = $rsa->encrypt($signStr);
                 break;
             case 'RSA2':
-                $rsa = new Rsa2Encrypt($this->rsaPrivateKey);
-
+                $rsa  = new Rsa2Encrypt($this->rsaPrivateKey);
                 $sign = $rsa->encrypt($signStr);
                 break;
             default:
@@ -70,22 +71,25 @@ abstract class AliBaseData extends BaseData
      */
     protected function buildData()
     {
-        $bizContent = $this->getBizContent();
-        $bizContent = ArrayUtil::paraFilter($bizContent);// 过滤掉空值，下面不用在检查是否为空
-
-        $signData = [
+        $bizContent           = $this->getBizContent();
+        $bizContent           = ArrayUtil::paraFilter($bizContent);// 过滤掉空值，下面不用在检查是否为空
+        $antCertificationUtil = new AntCertificationUtil();
+        $rootCertSN           = $antCertificationUtil->getRootCertSN($this->alipayRootCertPath);//支付宝根证书SN
+        $merchantCertSN       = $antCertificationUtil->getCertSN($this->merchantCertPath);//应用公钥证书路径SN
+        $signData             = [
             // 公共参数
-            'app_id'      => $this->appId,
-            'method'      => $this->method,
-            'format'      => $this->format,
-            'charset'     => $this->charset,
-            'sign_type'   => $this->signType,
-            'timestamp'   => $this->timestamp,
-            'version'     => $this->version,
-            'notify_url'  => $this->notifyUrl,
-
+            'app_id'              => $this->appId,
+            'method'              => $this->method,
+            'format'              => $this->format,
+            'charset'             => $this->charset,
+            'sign_type'           => $this->signType,
+            'timestamp'           => $this->timestamp,
+            'version'             => $this->version,
+            'notify_url'          => $this->notifyUrl,
+            'app_cert_sn'         => $merchantCertSN,//应用公钥证书SN
+            'alipay_root_cert_sn' => $rootCertSN,//支付宝根证书SN
             // 业务参数
-            'biz_content' => json_encode($bizContent, JSON_UNESCAPED_UNICODE),
+            'biz_content'         => json_encode($bizContent, JSON_UNESCAPED_UNICODE),
         ];
 
         // 电脑支付  wap支付添加额外参数
