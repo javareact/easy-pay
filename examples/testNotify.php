@@ -18,6 +18,7 @@ class TestNotify implements PayNotifyInterface
 {
     public function notifyProcess(array $data)
     {
+        file_put_contents('log.txt', var_export($data, true), FILE_APPEND);
         $channel = $data['channel'];
         if ($channel === Config::ALI_CHARGE) {// 支付宝支付
         } elseif ($channel === Config::WX_CHARGE) {// 微信支付
@@ -26,7 +27,7 @@ class TestNotify implements PayNotifyInterface
         } else {
             // 其它类型的通知
         }
-
+        var_export($data);
         // 执行业务逻辑，成功后返回true
         return true;
     }
