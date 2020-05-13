@@ -2,7 +2,10 @@
 
 ## 支付宝/微信支付/招商银行 一行接入
 
-```
+```php
+use Payment\Client\Charge;
+use Payment\Common\PayException;
+
 try {
     $str = Charge::run(支付类型, 配置文件, 支付数据);
 } catch (PayException $e) {
@@ -16,7 +19,7 @@ try {
 - [公告](#公告)
     - [重要通知](#重要通知)
     - [计划](#计划)
-- [Payment解决什么问题](#Payment解决什么问题)
+- [EasyPay解决什么问题](#EasyPay解决什么问题)
 - [如何使用](#如何使用)
     - [安装](#安装)
     - [项目集成](#项目集成)
@@ -28,27 +31,23 @@ try {
 - [第三方文档](#第三方文档)
 - [License](#License)
 
-# 公告
-
-第三方支付的一些重要更新提示，以及项目相关的计划信息。
-
 ## 重要通知
 
 1. 2020-05: **提醒：支付宝新增公钥证书方式,后续不再支持普通公钥方式,请注意升级**
 > 官方公告： https://opendocs.alipay.com/open/00ou7f?click_from=LETTER&_bdType=adchcdadbegcgbdiifbb&messageId=b2c0926f99ef0c90887eab9c044e12cb
+2. 目前项目兼容支付宝公钥证书方式和普通公钥方式
 
-# Payment解决什么问题
+# EasyPay解决什么问题
 
-`Payment` 的目的是简化大家在对接主流第三方时需要频繁去阅读第三方文档，还经常遇到各种问题。`Payment` 将所有第三方的接口进行了合理的建模分类，对大家提供统一的接入入口，大家只需要关注自身业务并且支付系统设计上。
+`EasyPay` 的目的是简化大家在对接主流第三方时需要频繁去阅读第三方文档，还经常遇到各种问题。`EasyPay` 将所有第三方的接口进行了合理的建模分类，对大家提供统一的接入入口，大家只需要关注自身业务并且支付系统设计上。
 
-目前已经集成：支付宝、微信、招商绝大部分功能。也欢迎各位贡献代码。 [贡献指南](#贡献指南)
-
+目前已经集成：支付宝、微信、招商绝大部分功能。 [贡献指南](#贡献指南)
 
 # 如何使用
 
 ## 安装
 
-当前 `Payment` 项目仅支持 `PHP version > 7.0` 的版本，并且仅支持通过 `composer` 进行安装。
+当前 `EasyPay` 项目仅支持 `PHP version > 7.0` 的版本，并且仅支持通过 `composer` 进行安装。
 
 **需要 `PHP` 安装以下扩展：**
 
@@ -89,17 +88,12 @@ composer require "javareact/easypay:*"
 ```php
 $config = [
     'use_sandbox' => true, // 是否使用沙盒模式
-
     'app_id'    => '2016073100130857',
     'sign_type' => 'RSA2', // RSA  RSA2
-
-
     // 支付宝公钥字符串
     'ali_public_key' => '',
-
     // 自己生成的密钥字符串
     'rsa_private_key' => '',
-
     'limit_pay' => [
         //'balance',// 余额
         //'moneyFund',// 余额宝
@@ -120,7 +114,7 @@ $config = [
 
 #### APP支付请求参数
 
-> 对应channel： \Payment\Client::ALI_CHANNEL_APP
+> 对应channel： \EasyPay\Client::ALI_CHANNEL_APP
 
 字段 | 解释 | 必须
 ---|---|---
@@ -140,7 +134,7 @@ time_expire | 该笔订单允许的最晚付款时间，逾期将关闭交易。
 
 #### 条码支付请求参数
 
-> 对应channel： \Payment\Client::ALI_CHANNEL_BAR
+> 对应channel： \EasyPay\Client::ALI_CHANNEL_BAR
 
 字段 | 解释 | 必须
 ---|---|---
@@ -164,7 +158,7 @@ time_expire | 该笔订单允许的最晚付款时间，逾期将关闭交易 | 
 auth_confirm_mode | 预授权确认模式，授权转交易请求中传入，适用于预授权转交易业务使用，目前只支持PRE_AUTH(预授权产品码) | N
 terminal_params | 商户传入终端设备相关信息，具体值要和支付宝约定 | N
 promo_params | 优惠明细参数，通过此属性补充营销参数 | N
-advance_payment_type | 支付模式类型,若值为ENJOY_PAY_V2表示当前交易允许走先享后付2.0垫资 | N
+advance_EasyPay_type | 支付模式类型,若值为ENJOY_PAY_V2表示当前交易允许走先享后付2.0垫资 | N
 
 #### 查询对账单请求参数
 
@@ -176,7 +170,7 @@ bill_date | 账单时间：日账单格式为yyyy-MM-dd | Y
 
 #### 扫码支付请求参数
 
-> 对应channel： \Payment\Client::ALI_CHANNEL_QR
+> 对应channel： \EasyPay\Client::ALI_CHANNEL_QR
 
 字段 | 解释 | 必须
 ---|---|---
@@ -199,7 +193,7 @@ business_params | 商户传入业务信息，具体值要和支付宝约定，�
 
 #### 手机网站支付请求参数
 
-> 对应channel： \Payment\Client::ALI_CHANNEL_WAP
+> 对应channel： \EasyPay\Client::ALI_CHANNEL_WAP
 
 字段 | 解释 | 必须
 ---|---|---
@@ -221,7 +215,7 @@ ext_user_info | 外部指定买家 | N
 
 #### 电脑网站支付请求参数
 
-> 对应channel： \Payment\Client::ALI_CHANNEL_WEB
+> 对应channel： \EasyPay\Client::ALI_CHANNEL_WEB
 
 字段 | 解释 | 必须
 ---|---|---
@@ -354,7 +348,7 @@ $config = [
 
 #### 支付请求参数
 
-> 对应channel： \Payment\Client::WX_CHANNEL_APP、WX_CHANNEL_BAR、WX_CHANNEL_LITE、WX_CHANNEL_PUB、WX_CHANNEL_QR、WX_CHANNEL_WAP
+> 对应channel： \EasyPay\Client::WX_CHANNEL_APP、WX_CHANNEL_BAR、WX_CHANNEL_LITE、WX_CHANNEL_PUB、WX_CHANNEL_QR、WX_CHANNEL_WAP
 
 字段 | 解释 | 必须
 ---|---|---
@@ -369,7 +363,7 @@ time_expire | 订单失效时间，时间戳 | N
 goods_tag | 商品标记，代金券或立减优惠功能的参数，说明详见[代金券或立减优惠](https://pay.weixin.qq.com/wiki/doc/api/tools/sp_coupon.php?chapter=12_1) | N
 scene_info | 该字段用于上报支付的场景信息，具体见微信文档 | N
 
-使用时，自行使用上面的字段构建好一个数组，并传入到 `\Payment\Client` 实例对应的方法中。后面均是相同，不在重复。
+使用时，自行使用上面的字段构建好一个数组，并传入到 `\EasyPay\Client` 实例对应的方法中。后面均是相同，不在重复。
 
 #### 账单请求参数
 
@@ -569,13 +563,6 @@ bank_serial_no | 银行退款流水号长度不超过20位 | Y
 date | 商户订单日期，时间戳 | Y
 message_key | 交易流水，合作方内部唯一流水 | Y
 
-
-## 设计支付系统
-
-`Payment` 解决了对接第三方渠道的各种问题，但是一个合理的支付完整系统该如何设计？估计大家还有很多疑问。关于支付系统的设计大家可以参考该项目：https://github.com/skr-shop/manuals
-
-这是我与小伙伴开源的另外一个关于电商的项目，里边对电商的各个模块设计进行了详细的描述。
-
 ## 支持的接口
 
 对应到第三方的具体接口
@@ -638,16 +625,6 @@ message_key | 交易流水，合作方内部唯一流水 | Y
 - [下载已结账单for银行](http://openhome.cmbchina.com/PayNew/pay/doc/cell/QRcode/QuerySettledOrderByBankDate)
 - [下载对账单](http://openhome.cmbchina.com/PayNew/pay/doc/cell/QRcode/DownloadRecordedDetails)
 - [查询招行公钥](http://openhome.cmbchina.com/PayNew/pay/doc/cell/QRcode/QueryKeyAPI)
-
-# 贡献指南
-
-## 代码设计
-
-整个代码结构的设计，待补充
-
-## 开发指南
-
-接入一个新的能力该如何操作，待补充
 
 # 第三方文档
 
