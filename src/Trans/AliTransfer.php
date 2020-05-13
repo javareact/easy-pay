@@ -15,10 +15,15 @@ use Payment\Config;
 class AliTransfer extends AliBaseStrategy
 {
     /** @var string 使用新版支付宝转账,单日额度100万 */
-    protected $method = 'alipay.fund.trans.uni.transfer';
+    protected $method = '';
 
     public function getBuildDataClass()
     {
+        if ($this->config->certType == 1) {
+            $this->method = 'alipay.fund.trans.uni.transfer';//新接口
+        } else {
+            $this->method = 'alipay.fund.trans.toaccount.transfer';//旧接口
+        }
         $this->config->method = $this->method;
         return TransData::class;
     }
@@ -60,12 +65,20 @@ class AliTransfer extends AliBaseStrategy
             ];
         }
 
+        if ($this->config->certType == 1) {
+            //公钥证书方式
+            $pay_date = $data['trans_date'] ?? date('Y-m-d H:i:s');// 支付时间
+        } else {
+            //普通公钥方式
+            $pay_date = $data['pay_date'] ?? date('Y-m-d H:i:s');
+        }
+
         $retData = [
             'is_success' => 'T',
             'response'   => [
                 'trans_no'       => $data['out_biz_no'],// 商户转账唯一订单号
                 'transaction_id' => $data['order_id'],// 支付宝转账单据号
-                'pay_date'       => $data['trans_date'] ?? date('Y-m-d H:i:s'),// 支付时间
+                'pay_date'       => $pay_date,// 支付时间
                 'channel'        => Config::ALI_TRANSFER,
             ],
         ];

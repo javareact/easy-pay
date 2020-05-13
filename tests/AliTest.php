@@ -20,6 +20,17 @@ class AliTest extends BaseTest
 
     public function testTransfer()
     {
+        // todo 老接口
+//        $data = [
+//            'trans_no'        => time(),
+//            'payee_type'      => 'ALIPAY_LOGONID',
+//            'payee_account'   => 'aaqlmq0729@sandbox.com',// ALIPAY_USERID: 2088102169940354      ALIPAY_LOGONID：aaqlmq0729@sandbox.com
+//            'amount'          => '0.1',
+//            'remark'          => '转账拉，有钱了',
+//            'payer_show_name' => '一个未来的富豪',
+//        ];
+
+        // todo 新接口
         $data = [
             'trans_no'     => time() . mt_rand(1000, 9999),
             'trans_amount' => 0.1,
