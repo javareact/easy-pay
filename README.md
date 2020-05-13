@@ -1,6 +1,6 @@
 # EasyPay
 
-## 支付宝/微信支付 一行接入
+## 支付宝/微信支付/招商银行 一行接入
 
 ```
 try {
@@ -34,13 +34,8 @@ try {
 
 ## 重要通知
 
-1. 2019-04: **提醒：微信CA证书进行了更新，请更新项目到最新版本。否则5月29日后，将无法支付**
-> 官方公告： https://pay.weixin.qq.com/index.php/public/cms/content_detail?lang=zh&id=56602
-
-## 计划
-
-1. 2019/3/28 开始重构整个项目，doing... ...
-> 重构后的项目与 `4.x` 以前的版本不兼容，请使用者注意！
+1. 2020-05: **提醒：支付宝新增公钥证书方式,后续不再支持普通公钥方式,请注意升级**
+> 官方公告： https://opendocs.alipay.com/open/00ou7f?click_from=LETTER&_bdType=adchcdadbegcgbdiifbb&messageId=b2c0926f99ef0c90887eab9c044e12cb
 
 # Payment解决什么问题
 
