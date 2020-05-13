@@ -51,6 +51,9 @@ final class AliConfig extends ConfigInterface
     /** @var string 支付宝公钥证书路径 */
     public $alipayCertPath;
 
+    /** @var int 0=普通公钥方式,1=公钥证书方式 */
+    public $certType = 0;
+
     /**
      * 初始化配置文件
      * @param array $config
@@ -73,6 +76,10 @@ final class AliConfig extends ConfigInterface
             $this->appId = $config['app_id'];
         } else {
             throw new PayException('支付宝应用ID错误，请检查');
+        }
+
+        if (!empty($config['cert_type'])) {
+            $this->certType = 1;//公钥证书方式
         }
 
         // 初始 支付宝异步通知地址，可为空
@@ -102,14 +109,26 @@ final class AliConfig extends ConfigInterface
             throw new PayException('支付宝公钥生成错误，如果你使用的是文件方式配置，建议修改为字符串配置');
         }
 
-        // 初始 RSA私钥文件 需要检查该文件是否存在
-        if (key_exists('rsa_private_key', $config) && !empty($config['rsa_private_key'])) {
-            $this->rsaPrivateKey = StrUtil::getRsaKeyValue($config['rsa_private_key'], 'private');
+        if ($this->certType == 1) {
+            // 初始 RSA私钥文件 需要检查该文件是否存在
+            if (key_exists('merchantPrivateKey', $config) && !empty($config['merchantPrivateKey'])) {
+                $this->rsaPrivateKey = StrUtil::getRsaKeyValue($config['merchantPrivateKey'], 'private');
+            } else {
+                throw new PayException('请提供商户的rsa私钥文件');
+            }
+            if (empty($this->rsaPrivateKey)) {
+                throw new PayException('支付宝rsa私钥生成错误，如果你使用的是文件方式配置，建议修改为字符串配置');
+            }
         } else {
-            throw new PayException('请提供商户的rsa私钥文件');
-        }
-        if (empty($this->rsaPrivateKey)) {
-            throw new PayException('支付宝rsa私钥生成错误，如果你使用的是文件方式配置，建议修改为字符串配置');
+            // 初始 RSA私钥文件 需要检查该文件是否存在
+            if (key_exists('rsa_private_key', $config) && !empty($config['rsa_private_key'])) {
+                $this->rsaPrivateKey = StrUtil::getRsaKeyValue($config['rsa_private_key'], 'private');
+            } else {
+                throw new PayException('请提供商户的rsa私钥文件');
+            }
+            if (empty($this->rsaPrivateKey)) {
+                throw new PayException('支付宝rsa私钥生成错误，如果你使用的是文件方式配置，建议修改为字符串配置');
+            }
         }
 
         if (key_exists('merchantCertPath', $config) && !empty($config['merchantCertPath'])) {

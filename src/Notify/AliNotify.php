@@ -163,8 +163,8 @@ class AliNotify extends NotifyStrategy
      */
     protected function verifySign(array $data)
     {
-//        $signType = strtoupper($data['sign_type']);
-        $sign = $data['sign'];
+        $signType = strtoupper($data['sign_type']);
+        $sign     = $data['sign'];
         // 1. 剔除sign与sign_type参数
         $values = ArrayUtil::removeKeys($data, ['sign', 'sign_type']);
         //  2. 移除数组中的空值
@@ -172,15 +172,29 @@ class AliNotify extends NotifyStrategy
         // 3. 对待签名参数数组排序
         $values = ArrayUtil::arraySort($values);
         // 4. 将排序后的参数与其对应值，组合成“参数=参数值”的格式,用&字符连接起来
-        $preStr               = ArrayUtil::createLinkstring($values);
-        $antCertificationUtil = new AntCertificationUtil();
-        $pubKey               = $antCertificationUtil->getPublicKey($this->config->alipayCertPath);
-        $res                  = "-----BEGIN PUBLIC KEY-----\n" .
-            wordwrap($pubKey, 64, "\n", true) .
-            "\n-----END PUBLIC KEY-----";
-        if (empty($res)) {
-            throw new PayException('支付宝RSA公钥错误。请检查公钥文件格式是否正确');
-        };
-        return (openssl_verify($preStr, base64_decode($sign), $res, OPENSSL_ALGO_SHA256) === 1);
+        $preStr = ArrayUtil::createLinkstring($values);
+        if ($this->config->certType == 1) {
+            //公钥证书方式
+            $antCertificationUtil = new AntCertificationUtil();
+            $pubKey               = $antCertificationUtil->getPublicKey($this->config->alipayCertPath);
+            $res                  = "-----BEGIN PUBLIC KEY-----\n" .
+                wordwrap($pubKey, 64, "\n", true) .
+                "\n-----END PUBLIC KEY-----";
+            if (empty($res)) {
+                throw new PayException('支付宝RSA公钥错误。请检查公钥文件格式是否正确');
+            };
+            return (openssl_verify($preStr, base64_decode($sign), $res, OPENSSL_ALGO_SHA256) === 1);
+        } else {
+            //普通公钥方式
+            if ($signType === 'RSA') {// 使用rsa方式
+                $rsa = new RsaEncrypt($this->config->rsaAliPubKey);
+                return $rsa->rsaVerify($preStr, $sign);
+            } elseif ($signType === 'RSA2') {
+                $rsa = new Rsa2Encrypt($this->config->rsaAliPubKey);
+                return $rsa->rsaVerify($preStr, $sign);
+            } else {
+                return false;
+            }
+        }
     }
 }
