@@ -33,9 +33,9 @@ try {
 
 ## 重要通知
 
-1. 2020-05: **提醒：支付宝新增公钥证书方式,后续不再支持普通公钥方式,请注意升级**
+* 2020-05-14: **提醒：支付宝新增公钥证书方式,后续不再支持普通公钥方式,请注意升级**
 > 官方公告： https://opendocs.alipay.com/open/00ou7f?click_from=LETTER&_bdType=adchcdadbegcgbdiifbb&messageId=b2c0926f99ef0c90887eab9c044e12cb
-2. 目前项目兼容支付宝公钥证书方式和普通公钥方式
+* 目前项目兼容支付宝公钥证书方式和普通公钥方式
 
 # EasyPay解决什么问题
 
