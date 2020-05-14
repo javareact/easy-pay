@@ -17,8 +17,8 @@ class AntCertificationUtil
      */
     public function getCertSN($certPath)
     {
-        if (is_file($certPath)) {
-            $cert = file_get_contents($certPath);
+        if ((mb_strlen($certPath) < 1024) && is_file($certPath)) {
+            $cert = @file_get_contents($certPath);
         } else {
             $cert = $certPath;
         }
@@ -34,8 +34,8 @@ class AntCertificationUtil
      */
     public function getPublicKey($certPath)
     {
-        if (is_file($certPath)) {
-            $cert = file_get_contents($certPath);
+        if ((mb_strlen($certPath) < 1024) && is_file($certPath)) {
+            $cert = @file_get_contents($certPath);
         } else {
             $cert = $certPath;
         }
@@ -53,8 +53,8 @@ class AntCertificationUtil
      */
     public function getRootCertSN($certPath)
     {
-        if (is_file($certPath)) {
-            $cert = file_get_contents($certPath);
+        if ((mb_strlen($certPath) < 1024) && is_file($certPath)) {
+            $cert = @file_get_contents($certPath);
         } else {
             $cert = $certPath;
         }

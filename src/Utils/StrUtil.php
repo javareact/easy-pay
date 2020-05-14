@@ -1,4 +1,5 @@
 <?php
+
 namespace Payment\Utils;
 
 /**
@@ -16,9 +17,9 @@ class StrUtil
     public static function getNonceStr($length = 32)
     {
         $chars = "abcdefghijklmnopqrstuvwxyz0123456789";
-        $str = "";
+        $str   = "";
         for ($i = 0; $i < $length; $i++) {
-            $str .= substr($chars, mt_rand(0, strlen($chars)-1), 1);
+            $str .= substr($chars, mt_rand(0, strlen($chars) - 1), 1);
         }
         return $str;
     }
@@ -51,7 +52,7 @@ class StrUtil
     {
         $hex = '';
         $len = strlen($string);
-        for ($i=0; $i < $len; $i++) {
+        for ($i = 0; $i < $len; $i++) {
             $hex .= dechex(ord($string[$i]));
         }
         return $hex;
@@ -66,7 +67,7 @@ class StrUtil
      */
     public static function getRsaKeyValue($key, $type = 'private')
     {
-        if (is_file($key)) {// 是文件
+        if ((mb_strlen($key) < 1024) && is_file($key)) {// 是文件
             $keyStr = @file_get_contents($key);
         } else {
             $keyStr = $key;
@@ -79,10 +80,10 @@ class StrUtil
         // 为了解决用户传入的密钥格式，这里进行统一处理
         if ($type === 'private') {
             $beginStr = '-----BEGIN RSA PRIVATE KEY-----';
-            $endStr = '-----END RSA PRIVATE KEY-----';
+            $endStr   = '-----END RSA PRIVATE KEY-----';
         } else {
             $beginStr = '-----BEGIN PUBLIC KEY-----';
-            $endStr = '-----END PUBLIC KEY-----';
+            $endStr   = '-----END PUBLIC KEY-----';
         }
 
         $rsaKey = chunk_split(base64_encode($keyStr), 64, "\n");
