@@ -45,9 +45,10 @@ class AliTest extends BaseTest
                 'identity_type' => 'ALIPAY_USER_ID',//参与方的标识类型，目前支持如下类型：1、ALIPAY_USER_ID 支付宝的会员ID,2、ALIPAY_LOGON_ID：支付宝登录号，支持邮箱和手机号格式
                 //                'name'          => '张三',//参与方真实姓名，如果非空，将校验收款支付宝账号姓名一致性。当identity_type=ALIPAY_LOGON_ID时，本字段必填。
             ],
-            'biz_scene'    => 'DIRECT_TRANSFER'//描述特定的业务场景，可传的参数如下：
+            'biz_scene'    => 'DIRECT_TRANSFER',//描述特定的业务场景，可传的参数如下：
             //PERSONAL_COLLECTION：C2C现金红包-领红包；
             //DIRECT_TRANSFER：B2C现金红包、单笔无密转账到支付宝/银行卡
+            'order_title'  => '订单标题',
         ];
         try {
             $ret = Transfer::run(Config::ALI_TRANSFER, Contains::ALI_CONFIG, $data);

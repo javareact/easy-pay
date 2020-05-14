@@ -21,6 +21,7 @@ use Payment\Config;
  * @property string $payer_info 付款方数组(新接口)
  * @property string $payer_show_name  默认显示该账户在支付宝登记的实名。收款方可见。(老接口)
  * @property string $remark 转账备注  当付款方为企业账户，且转账金额达到（大于等于）50000元，remark不能为空
+ * @property string $order_title 转账业务的标题，用于在支付宝用户的账单里显示(老接口)
  *
  * @package Payment\Common\Ali\Data
  */
@@ -91,13 +92,13 @@ class TransData extends AliBaseData
         if ($this->certType == 1) {
             $content = [
                 'out_biz_no'   => $this->trans_no,// 商户转账唯一订单号
-                'payee_type'   => strtoupper($this->payee_type),// 收款方账户类型
                 'trans_amount' => $this->trans_amount,
-                'payer_info'   => $this->payer_info,
-                'payee_info'   => $this->payee_info,
+                'payer_info'   => $this->payer_info ?? '',
+                'payee_info'   => $this->payee_info,//收款方信息
                 'product_code' => $this->product_code,
                 'biz_scene'    => $this->biz_scene,
-                'remark'       => $this->remark,
+                'remark'       => $this->remark ?? '',
+                'order_title'  => $this->order_title ?? '',
             ];
         } else {
             $content = [
