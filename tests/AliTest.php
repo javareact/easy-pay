@@ -2,6 +2,7 @@
 
 namespace Test\EasyPay;
 
+use Payment\Client\Refund;
 use Payment\Client\Transfer;
 use Payment\Common\PayException;
 use Payment\Config;
@@ -53,10 +54,37 @@ class AliTest extends BaseTest
         try {
             $ret = Transfer::run(Config::ALI_TRANSFER, Contains::ALI_CONFIG, $data);
         } catch (PayException $e) {
+            var_export(__LINE__);
+            var_export($e->errorMessage());
+            exit;
+        }
+        var_export(__LINE__);
+        var_export($ret);
+        $this->assertSame('T', $ret['is_success']);
+    }
+
+    /**
+     * 测试退款
+     */
+    public function testRefund()
+    {
+        $refundNo = time() . rand(1000, 9999);
+        $data     = [
+            'out_trade_no' => '15911642794938',
+            'trade_no'     => '',// 支付宝交易号， 与 out_trade_no 必须二选一
+            'refund_fee'   => '0.01',
+            'reason'       => '我要退款',
+            'refund_no'    => $refundNo,
+        ];
+        try {
+            $ret = Refund::run(Config::ALI_REFUND, Contains::ALI_CONFIG, $data);
+        } catch (PayException $e) {
+            var_export(__LINE__);
             var_export($e->errorMessage());
             exit;
         }
         var_export($ret);
+        var_export(__LINE__);
         $this->assertSame('T', $ret['is_success']);
     }
 }
