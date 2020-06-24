@@ -14,11 +14,17 @@ use Payment\Config;
 class AliTest extends BaseTest
 {
 
+    /**
+     * 初始化
+     */
     protected function setUp(): void
     {
         parent::setUp();
     }
 
+    /**
+     * 测试转账
+     */
     public function testTransfer()
     {
         // todo 老接口
@@ -28,7 +34,7 @@ class AliTest extends BaseTest
 //            'payee_account'   => 'aaqlmq0729@sandbox.com',// ALIPAY_USERID: 2088102169940354      ALIPAY_LOGONID：aaqlmq0729@sandbox.com
 //            'amount'          => '0.1',
 //            'remark'          => '转账拉，有钱了',
-//            'payer_show_name' => '一个未来的富豪',
+//            'payer_show_name' => '一个未来的富豪',//转账标题
 //        ];
 
         // todo 新接口
@@ -49,7 +55,7 @@ class AliTest extends BaseTest
             'biz_scene'    => 'DIRECT_TRANSFER',//描述特定的业务场景，可传的参数如下：
             //PERSONAL_COLLECTION：C2C现金红包-领红包；
             //DIRECT_TRANSFER：B2C现金红包、单笔无密转账到支付宝/银行卡
-            'order_title'  => '订单标题',
+            'order_title'  => '订单标题',//转账标题
         ];
         try {
             $ret = Transfer::run(Config::ALI_TRANSFER, Contains::ALI_CONFIG, $data);
