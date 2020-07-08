@@ -1,9 +1,9 @@
 <?php
+
 namespace Payment\Utils;
 
 /**
  * @author: admin
- * @createTime: 2016-06-07 21:01
  * @description:  常用的数组处理工具
  */
 class ArrayUtil
@@ -39,14 +39,12 @@ class ArrayUtil
      */
     public static function removeKeys(array $inputs, $keys)
     {
-        if (! is_array($keys)) {// 如果不是数组，需要进行转换
+        if (!is_array($keys)) {// 如果不是数组，需要进行转换
             $keys = explode(',', $keys);
         }
-
-        if (empty($keys) || ! is_array($keys)) {
+        if (empty($keys) || !is_array($keys)) {
             return $inputs;
         }
-
         $flag = true;
         foreach ($keys as $key) {
             if (array_key_exists($key, $inputs)) {
@@ -56,8 +54,7 @@ class ArrayUtil
                 unset($inputs[$key]);
             }
         }
-
-        if (! $flag) {
+        if (!$flag) {
             $inputs = array_values($inputs);
         }
         return $inputs;
@@ -72,7 +69,6 @@ class ArrayUtil
     {
         ksort($param);
         reset($param);
-
         return $param;
     }
 
@@ -84,27 +80,24 @@ class ArrayUtil
      */
     public static function createLinkstring($para)
     {
-        if (! is_array($para)) {
+        if (!is_array($para)) {
             throw new \Exception('必须传入数组参数');
         }
-
         reset($para);
         $arg = '';
         foreach ($para as $key => $val) {
             if (is_array($val)) {
                 continue;
             }
-
             $arg .= $key . '=' . urldecode($val) . '&';
         }
         //去掉最后一个&字符
         $arg && $arg = substr($arg, 0, -1);
-
         //如果存在转义字符，那么去掉转义
-        if (get_magic_quotes_gpc()) {
-            $arg = stripslashes($arg);
-        }
-
+        //在 PHP 5.4.O 起将始终返回 FALSE
+//        if (get_magic_quotes_gpc()) {
+//            $arg = stripslashes($arg);
+//        }
         return $arg;
     }
 
@@ -118,10 +111,9 @@ class ArrayUtil
      */
     public static function get(array $arr, $key, $default = '')
     {
-        if (isset($arr[$key]) && ! empty($arr[$key])) {
+        if (isset($arr[$key]) && !empty($arr[$key])) {
             return $arr[$key];
         }
-
         return $default;
     }
 }
