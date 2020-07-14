@@ -19,6 +19,7 @@ class AntCertificationUtil
      * 从证书中提取序列号
      * @param $certPath
      * @return string
+     * @throws PayException
      */
     public function getCertSN($certPath)
     {
@@ -28,7 +29,10 @@ class AntCertificationUtil
             $cert = $certPath;
         }
         $ssl = openssl_x509_parse($cert);
-        $SN  = md5($this->array2string(array_reverse($ssl['issuer'])) . $ssl['serialNumber']);
+        if (empty($ssl['issuer'])) {
+            throw new PayException("支付宝商户应用公钥证书格式不正确");
+        }
+        $SN = md5($this->array2string(array_reverse($ssl['issuer'])) . $ssl['serialNumber']);
         return $SN;
     }
 
