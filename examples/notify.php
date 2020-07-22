@@ -1,8 +1,6 @@
 <?php
 /**
  * 第三方支付回调处理
- * @author: admin
- * @createTime: 2016-07-25 15:57
  * @description: 支付通知回调
  */
 

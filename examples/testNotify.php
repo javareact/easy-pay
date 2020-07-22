@@ -4,18 +4,17 @@ use Payment\Notify\PayNotifyInterface;
 use Payment\Config;
 
 /**
- * @author: admin
- * @createTime: 2016-07-20 18:31
- * @description:
- */
-
-/**
  * 客户端需要继承该接口，并实现这个方法，在其中实现对应的业务逻辑
  * Class TestNotify
  * @anthor admin
  */
 class TestNotify implements PayNotifyInterface
 {
+
+    /**
+     * @param array $data
+     * @return bool
+     */
     public function notifyProcess(array $data)
     {
         file_put_contents('log.txt', var_export($data, true), FILE_APPEND);
@@ -27,7 +26,6 @@ class TestNotify implements PayNotifyInterface
         } else {
             // 其它类型的通知
         }
-        var_export($data);
         // 执行业务逻辑，成功后返回true
         return true;
     }
