@@ -1,10 +1,10 @@
 <?php
+
 namespace Payment\Common;
 
 /**
- * @author: admin
- * @createTime: 2016-07-14 18:02
- * @description: 统一的异常处理类
+ * 支付异常
+ * @package Payment\Common
  */
 class PayException extends \Exception
 {

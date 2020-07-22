@@ -1,4 +1,5 @@
 <?php
+
 namespace Payment;
 
 use Payment\Notify\AliNotify;
@@ -26,10 +27,10 @@ class NotifyContext
     /**
      * 设置对应的通知渠道
      * @param string $channel 通知渠道
-     *  - @see Config
-     *
-     * @param array $config 配置文件
+     *  - @param array $config 配置文件
      * @throws PayException
+     * @see Config
+     *
      */
     public function initNotify($channel, array $config)
     {
@@ -65,15 +66,14 @@ class NotifyContext
      * 通过环境类调用支付异步通知
      *
      * @param PayNotifyInterface $notify
-     * @return array
+     * @return string
      * @throws PayException
      */
     public function notify(PayNotifyInterface $notify)
     {
-        if (! $this->notify instanceof NotifyStrategy) {
+        if (!$this->notify instanceof NotifyStrategy) {
             throw new PayException('请检查初始化是否正确');
         }
-
         return $this->notify->handle($notify);
     }
 }
