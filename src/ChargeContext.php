@@ -85,9 +85,6 @@ class ChargeContext
                 case Config::CMB_CHANNEL_APP:
                     $this->channel = new CmbCharge($config);
                     break;
-                case Config::CCB_CHANNEL_WEB:
-                    $this->channel = new CcbWebCharge($config);
-                    break;
                 default:
                     throw new PayException('当前仅支持：支付宝  微信 招商一网通 建设银行');
             }
@@ -119,7 +116,12 @@ class ChargeContext
         if (!$this->channel instanceof BaseStrategy) {
             throw new PayException('请检查初始化是否正确');
         }
-
+        //去掉特殊字符,防止签名错误
+        array_walk_recursive($data, function (&$val) {
+            if (is_string($val) && strpos($val, '+') !== false) {
+                $val = str_replace('+', '', $val);
+            }
+        });
         try {
             return $this->channel->handle($data);
         } catch (PayException $e) {

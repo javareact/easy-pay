@@ -1,4 +1,5 @@
 <?php
+
 namespace Payment;
 
 use Payment\Common\BaseStrategy;
@@ -22,10 +23,10 @@ class TransferContext
     /**
      * 设置对应的退款渠道
      * @param string $channel 退款渠道
-     *  - @see Config
-     *
-     * @param array $config 配置文件
+     *  - @param array $config 配置文件
      * @throws PayException
+     * @see Config
+     *
      */
     public function initTransfer($channel, array $config)
     {
@@ -55,10 +56,15 @@ class TransferContext
      */
     public function transfer(array $data)
     {
-        if (! $this->transfer instanceof BaseStrategy) {
+        if (!$this->transfer instanceof BaseStrategy) {
             throw new PayException('请检查初始化是否正确');
         }
-
+        //去掉特殊字符,防止签名错误
+        array_walk_recursive($data, function (&$val) {
+            if (is_string($val) && strpos($val, '+') !== false) {
+                $val = str_replace('+', '', $val);
+            }
+        });
         try {
             return $this->transfer->handle($data);
         } catch (PayException $e) {

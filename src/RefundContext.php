@@ -1,4 +1,5 @@
 <?php
+
 namespace Payment;
 
 use Payment\Common\BaseStrategy;
@@ -25,10 +26,10 @@ class RefundContext
     /**
      * 设置对应的退款渠道
      * @param string $channel 退款渠道
-     *  - @see Config
-     *
-     * @param array $config 配置文件
+     *  - @param array $config 配置文件
      * @throws PayException
+     * @see Config
+     *
      */
     public function initRefund($channel, array $config)
     {
@@ -61,10 +62,15 @@ class RefundContext
      */
     public function refund(array $data)
     {
-        if (! $this->refund instanceof BaseStrategy) {
+        if (!$this->refund instanceof BaseStrategy) {
             throw new PayException('请检查初始化是否正确');
         }
-
+        //去掉特殊字符,防止签名错误
+        array_walk_recursive($data, function (&$val) {
+            if (is_string($val) && strpos($val, '+') !== false) {
+                $val = str_replace('+', '', $val);
+            }
+        });
         try {
             return $this->refund->handle($data);
         } catch (PayException $e) {

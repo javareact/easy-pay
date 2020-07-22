@@ -2,6 +2,7 @@
 
 namespace Test\EasyPay;
 
+use Payment\Client\Charge;
 use Payment\Client\Refund;
 use Payment\Client\Transfer;
 use Payment\Common\PayException;
@@ -92,5 +93,35 @@ class AliTest extends BaseTest
         var_export($ret);
         var_export(__LINE__);
         $this->assertSame('T', $ret['is_success']);
+    }
+
+    /**
+     * 测试网页支付
+     */
+    public function testWebCharge()
+    {
+        // 订单信息
+        $orderNo = time() . rand(1000, 9999);
+        $payData = [
+            'body'            => 'ali web pay',
+            'subject'         => '测试支付宝电&&&脑网站+++支付',
+            'order_no'        => $orderNo,
+            'timeout_express' => time() + 600,// 表示必须 600s 内付款
+            'amount'          => '0.01',// 单位为元 ,最小为0.01
+            'return_param'    => '123123',
+            // 'client_ip' => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1',// 客户地址
+            'goods_type'      => '1',// 0—虚拟类商品，1—实物类商品
+            'store_id'        => '',
+            // 说明地址：https://doc.open.alipay.com/doc2/detail.htm?treeId=270&articleId=105901&docType=1
+            // 建议什么也不填
+            'qr_mod'          => '',
+        ];
+        try {
+            $url = Charge::run(Config::ALI_CHANNEL_WEB, Contains::ALI_CONFIG, $payData);
+            var_export($url);
+        } catch (PayException $e) {
+            echo $e->errorMessage();
+        }
+        $this->assertIsString($url);
     }
 }

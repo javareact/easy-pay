@@ -60,7 +60,12 @@ class RedContext
         if (!$this->red instanceof BaseStrategy) {
             throw new PayException('请检查初始化是否正确');
         }
-
+        //去掉特殊字符,防止签名错误
+        array_walk_recursive($data, function (&$val) {
+            if (is_string($val) && strpos($val, '+') !== false) {
+                $val = str_replace('+', '', $val);
+            }
+        });
         try {
             return $this->red->handle($data);
         } catch (PayException $e) {

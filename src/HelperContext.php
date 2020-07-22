@@ -1,4 +1,5 @@
 <?php
+
 namespace Payment;
 
 use Payment\Common\BaseStrategy;
@@ -22,10 +23,10 @@ class HelperContext
     /**
      * 设置对应的退款渠道
      * @param string $way 对应的方式渠道
-     *  - @see Config
-     *
-     * @param array $config 配置文件
+     *  - @param array $config 配置文件
      * @throws PayException
+     * @see Config
+     *
      */
     public function initHelper($way, array $config)
     {
@@ -55,10 +56,15 @@ class HelperContext
      */
     public function helper(array $data)
     {
-        if (! $this->helper instanceof BaseStrategy) {
+        if (!$this->helper instanceof BaseStrategy) {
             throw new PayException('请检查初始化是否正确');
         }
-
+        //去掉特殊字符,防止签名错误
+        array_walk_recursive($data, function (&$val) {
+            if (is_string($val) && strpos($val, '+') !== false) {
+                $val = str_replace('+', '', $val);
+            }
+        });
         try {
             return $this->helper->handle($data);
         } catch (PayException $e) {
