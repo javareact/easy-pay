@@ -1,6 +1,6 @@
 # EasyPay
 
-## 支付宝/微信支付/招商银行 一行接入
+## 支付宝/微信支付/招商银行 支付/退款/转账/发红包/查账 一行接入
 
 ```php
 use Payment\Client\Charge;
@@ -33,8 +33,9 @@ try {
 
 ## 重要通知
 
+* 2020-7-22 自动过滤参数中的特殊字符,避免签名错误
 * 2020-7-8 兼容PHP7.4
-* 2020-05-14: **提醒：支付宝新增公钥证书方式,后续不再支持普通公钥方式,请注意升级**
+* 2020-5-14: **提醒：支付宝新增公钥证书方式,后续不再支持普通公钥方式,请注意升级**
 > 官方公告： https://opendocs.alipay.com/open/00ou7f?click_from=LETTER&_bdType=adchcdadbegcgbdiifbb&messageId=b2c0926f99ef0c90887eab9c044e12cb
 * 目前项目兼容支付宝公钥证书方式和普通公钥方式
 
@@ -106,8 +107,8 @@ $config = [
     ], // 用户不可用指定渠道支付当有多个渠道时用“,”分隔
 
     // 与业务相关参数
-    'notify_url' => 'https://dayutalk.cn/notify/ali',
-    'return_url' => 'https://dayutalk.cn',
+    'notify_url' => 'https://test.cn/notify/ali',
+    'return_url' => 'https://test.cn',
 ];
 
 
@@ -341,9 +342,9 @@ $config = [
     ], // 指定不能使用信用卡支付   不传入，则均可使用
     'fee_type' => 'CNY', // 货币类型  当前仅支持该字段
 
-    'notify_url' => 'https://dayutalk.cn/v1/notify/wx',
+    'notify_url' => 'https://test.cn/v1/notify/wx',
 
-    'redirect_url' => 'https://dayutalk.cn/', // 如果是h5支付，可以设置该值，返回到指定页面
+    'redirect_url' => 'https://test.cn/', // 如果是h5支付，可以设置该值，返回到指定页面
 ];
 ```
 
@@ -477,12 +478,12 @@ $config = [
     'sign_type' => 'SHA-256', // 签名算法,固定为“SHA-256”
     'limit_pay' => 'A', // 允许支付的卡类型,默认对支付卡种不做限制，储蓄卡和信用卡均可支付   A:储蓄卡支付，即禁止信用卡支付
 
-    'notify_url' => 'https://dayutalk.cn/notify/cmb', // 支付成功的回调
+    'notify_url' => 'https://test.cn/notify/cmb', // 支付成功的回调
 
-    'sign_notify_url' => 'https://dayutalk.cn/notify/cmb', // 成功签约结果通知地址
-    'sign_return_url' => 'https://dayutalk.cn', // 成功签约结果通知地址
+    'sign_notify_url' => 'https://test.cn/notify/cmb', // 成功签约结果通知地址
+    'sign_return_url' => 'https://test.cn', // 成功签约结果通知地址
 
-    'return_url' => 'https://dayutalk.cn', // 如果是h5支付，可以设置该值，返回到指定页面
+    'return_url' => 'https://test.cn', // 如果是h5支付，可以设置该值，返回到指定页面
 ];
 ```
 
