@@ -20,12 +20,11 @@ class PubKeyData extends CmbBaseData
     protected function getReqData()
     {
         $reqData = [
-            'dateTime' => $this->dateTime,
-            'branchNo' => $this->branchNo,
+            'dateTime'   => $this->dateTime,
+            'branchNo'   => $this->branchNo,
             'merchantNo' => $this->merchantNo,
-            'txCode' => CmbConfig::TRADE_CODE,
+            'txCode'     => CmbConfig::TRADE_CODE,
         ];
-
         // 这里不能进行过滤空值，招商的空值也要加入签名中
         return $reqData;
     }

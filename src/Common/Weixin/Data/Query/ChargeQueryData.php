@@ -5,6 +5,7 @@
  * Date: 2017/3/6
  * Time: 下午10:05
  */
+
 namespace Payment\Common\Weixin\Data\Query;
 
 use Payment\Common\PayException;
@@ -25,17 +26,17 @@ class ChargeQueryData extends WxBaseData
     protected function buildData()
     {
         $this->retData = [
-            'appid' => $this->appId,
+            'appid'     => $this->appId,
             'mch_id'    => $this->mchId,
             'nonce_str' => $this->nonceStr,
             'sign_type' => $this->signType,
 
-            'transaction_id'    => $this->transaction_id,
-            'out_trade_no'  => $this->out_trade_no,
+            'transaction_id' => $this->transaction_id,
+            'out_trade_no'   => $this->out_trade_no,
 
             // 服务商
-            'sub_appid' => $this->sub_appid,
-            'sub_mch_id' => $this->sub_mch_id,
+            'sub_appid'      => $this->sub_appid,
+            'sub_mch_id'     => $this->sub_mch_id,
         ];
 
         $this->retData = ArrayUtil::paraFilter($this->retData);
@@ -44,7 +45,7 @@ class ChargeQueryData extends WxBaseData
     protected function checkDataParam()
     {
         $transaction_id = $this->transaction_id;// 微信交易号，查询效率高
-        $order_no = $this->out_trade_no;// 商户订单号，查询效率低，不建议使用
+        $order_no       = $this->out_trade_no;// 商户订单号，查询效率低，不建议使用
 
         // 二者不能同时为空
         if (empty($transaction_id) && empty($order_no)) {

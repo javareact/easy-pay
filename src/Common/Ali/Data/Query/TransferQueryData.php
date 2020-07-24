@@ -1,4 +1,5 @@
 <?php
+
 namespace Payment\Common\Ali\Data\Query;
 
 use Payment\Common\Ali\Data\AliBaseData;
@@ -18,8 +19,8 @@ class TransferQueryData extends AliBaseData
     protected function getBizContent()
     {
         $content = [
-            'out_biz_no'    => $this->trans_no,
-            'order_id'        => $this->transaction_id,
+            'out_biz_no' => $this->trans_no,
+            'order_id'   => $this->transaction_id,
         ];
 
         return $content;
@@ -27,7 +28,7 @@ class TransferQueryData extends AliBaseData
 
     protected function checkDataParam()
     {
-        $transNo = $this->trans_no;
+        $transNo       = $this->trans_no;
         $transactionId = $this->transaction_id;
 
         // 二者不能同时为空

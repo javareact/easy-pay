@@ -1,4 +1,5 @@
 <?php
+
 namespace Payment\Common\Weixin\Data;
 
 use Payment\Common\BaseData;
@@ -24,7 +25,7 @@ use Payment\Common\BaseData;
  *
  * @note 服务商信息
  * @property string $sub_appid 微信分配的子商户公众账号ID
- * @property string $sub_mch_id 	微信支付分配的子商户号
+ * @property string $sub_mch_id    微信支付分配的子商户号
  *
  * @package Payment\Common\Weixin\Dataa
  *
@@ -42,7 +43,7 @@ abstract class WxBaseData extends BaseData
         switch ($this->signType) {
             case 'MD5':
                 $signStr .= '&key=' . $this->md5Key;
-                $sign = md5($signStr);
+                $sign    = md5($signStr);
                 break;
             case 'HMAC-SHA256':
                 $sign = base64_encode(hash_hmac('sha256', $signStr, $this->md5Key));

@@ -1,4 +1,5 @@
 <?php
+
 namespace Payment\Helper\Cmb;
 
 use Payment\Common\Cmb\CmbBaseStrategy;
@@ -28,7 +29,7 @@ class PubKeyHelper extends CmbBaseStrategy
         $json = json_encode($ret, JSON_UNESCAPED_UNICODE);
 
         $postData = CmbConfig::REQ_FILED_NAME . '=' . $json;
-        $retData = $this->sendReq($postData);
+        $retData  = $this->sendReq($postData);
 
         if ($this->config->returnRaw) {
             $retData['channel'] = Config::CMB_PUB_KEY;
@@ -37,11 +38,11 @@ class PubKeyHelper extends CmbBaseStrategy
 
         // 正确情况
         $rData = [
-            'is_success'    => 'T',
-            'response'  => [
-                'pub_key'   => $retData['fbPubKey'],
-                'channel'   => Config::CMB_PUB_KEY,
-                'time'   => date('Y-m-d H:i:s', strtotime($retData['dateTime'])),// Y-m-d H:i:s,
+            'is_success' => 'T',
+            'response'   => [
+                'pub_key' => $retData['fbPubKey'],
+                'channel' => Config::CMB_PUB_KEY,
+                'time'    => date('Y-m-d H:i:s', strtotime($retData['dateTime'])),// Y-m-d H:i:s,
             ],
         ];
 

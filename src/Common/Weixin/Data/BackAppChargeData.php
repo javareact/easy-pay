@@ -1,4 +1,5 @@
 <?php
+
 namespace Payment\Common\Weixin\Data;
 
 use Payment\Utils\StrUtil;
@@ -19,7 +20,7 @@ class BackAppChargeData extends WxBaseData
     protected function buildData()
     {
         $this->retData = [
-            'appid' => $this->appId,
+            'appid'     => $this->appId,
             'partnerid' => $this->mchId,
             'prepayid'  => $this->prepay_id,
             'package'   => 'Sign=WXPay',

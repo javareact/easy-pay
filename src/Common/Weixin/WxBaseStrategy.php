@@ -1,4 +1,5 @@
 <?php
+
 namespace Payment\Common\Weixin;
 
 use GuzzleHttp\Client;
@@ -73,11 +74,11 @@ abstract class WxBaseStrategy implements BaseStrategy
             'timeout' => '10.0'
         ]);
         // @note: 微信部分接口并不需要证书支持。这里为了统一，全部携带证书进行请求
-        $options = [
-            'body' => $xml,
-            'cert' => $this->config->appCertPem,
-            'ssl_key' => $this->config->appKeyPem,
-            'verify' => $this->config->cacertPath,
+        $options  = [
+            'body'        => $xml,
+            'cert'        => $this->config->appCertPem,
+            'ssl_key'     => $this->config->appKeyPem,
+            'verify'      => $this->config->cacertPath,
             'http_errors' => false
         ];
         $response = $client->request('POST', $url, $options);
@@ -101,8 +102,8 @@ abstract class WxBaseStrategy implements BaseStrategy
 
     /**
      * @param array $data
-     * @throws PayException
      * @return array|string
+     * @throws PayException
      */
     public function handle(array $data)
     {
@@ -150,7 +151,7 @@ abstract class WxBaseStrategy implements BaseStrategy
     protected function verifySign(array $retData)
     {
         $retSign = $retData['sign'];
-        $values = ArrayUtil::removeKeys($retData, ['sign', 'sign_type']);
+        $values  = ArrayUtil::removeKeys($retData, ['sign', 'sign_type']);
 
         $values = ArrayUtil::paraFilter($values);
 

@@ -28,20 +28,20 @@ class RefundQueryData extends WxBaseData
     protected function buildData()
     {
         $this->retData = [
-            'appid' => $this->appId,
-            'mch_id'    => $this->mchId,
+            'appid'       => $this->appId,
+            'mch_id'      => $this->mchId,
             'device_info' => $this->terminal_id,
-            'nonce_str' => $this->nonceStr,
-            'sign_type' => $this->signType,
+            'nonce_str'   => $this->nonceStr,
+            'sign_type'   => $this->signType,
 
-            'transaction_id'    => $this->transaction_id,
-            'out_trade_no'  => $this->out_trade_no,
-            'out_refund_no' => $this->refund_no,
-            'refund_id' => $this->refund_id,
+            'transaction_id' => $this->transaction_id,
+            'out_trade_no'   => $this->out_trade_no,
+            'out_refund_no'  => $this->refund_no,
+            'refund_id'      => $this->refund_id,
 
             // 服务商
-            'sub_appid' => $this->sub_appid,
-            'sub_mch_id' => $this->sub_mch_id,
+            'sub_appid'      => $this->sub_appid,
+            'sub_mch_id'     => $this->sub_mch_id,
         ];
 
         $this->retData = ArrayUtil::paraFilter($this->retData);
@@ -50,9 +50,9 @@ class RefundQueryData extends WxBaseData
     protected function checkDataParam()
     {
         $transactionId = $this->transaction_id;// 微信交易号，查询效率高
-        $orderNo = $this->out_trade_no;// 商户订单号，查询效率低，不建议使用
-        $refundNo = $this->refund_no;// 商户的退款单号
-        $refundId = $this->refund_id;// 微信的退款交易号
+        $orderNo       = $this->out_trade_no;// 商户订单号，查询效率低，不建议使用
+        $refundNo      = $this->refund_no;// 商户的退款单号
+        $refundId      = $this->refund_id;// 微信的退款交易号
 
         // 四者不能同时为空
         if (empty($transactionId) && empty($orderNo) && empty($refundNo) && empty($refundId)) {

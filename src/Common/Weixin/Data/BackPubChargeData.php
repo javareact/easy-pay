@@ -22,7 +22,7 @@ class BackPubChargeData extends WxBaseData
     protected function buildData()
     {
         $this->retData = [
-            'appId' => $this->appId,
+            'appId'     => $this->appId,
             'timeStamp' => time() . '',
             'nonceStr'  => $this->nonceStr,
             'package'   => 'prepay_id=' . $this->prepay_id,

@@ -1,4 +1,5 @@
 <?php
+
 namespace Payment\Common;
 
 use Payment\Config;
@@ -47,7 +48,7 @@ abstract class BaseData
      * @throws PayException
      */
     public function __construct(ConfigInterface $config, array $reqData)
-    {   
+    {
         if ($config instanceof WxConfig) {
             $this->channel = Config::WECHAT_PAY;
         } elseif ($config instanceof AliConfig) {

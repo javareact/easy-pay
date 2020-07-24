@@ -31,22 +31,22 @@ class RefundData extends WxBaseData
     protected function buildData()
     {
         $this->retData = [
-            'appid' => $this->appId,
-            'mch_id'    => $this->mchId,
-            'device_info' => $this->terminal_id,
-            'nonce_str' => $this->nonceStr,
+            'appid'           => $this->appId,
+            'mch_id'          => $this->mchId,
+            'device_info'     => $this->terminal_id,
+            'nonce_str'       => $this->nonceStr,
             'refund_fee_type' => $this->feeType,
-            'transaction_id'    => $this->transaction_id,
-            'out_trade_no' => $this->out_trade_no,
-            'out_refund_no'  => $this->refund_no,// 商户退款单号
-            'total_fee' => $this->total_fee,// 订单总金额
-            'refund_fee' => $this->refund_fee,// 退款总金额
-            'op_user_id'    => $this->operator_id,//操作员帐号, 默认为商户号
-            'refund_account' => $this->refund_account,// 退款账户类型
-            'notify_url'    => $this->notifyUrl, // 退款通知 可以从config的 notify_url 加载通知退款回调地址
+            'transaction_id'  => $this->transaction_id,
+            'out_trade_no'    => $this->out_trade_no,
+            'out_refund_no'   => $this->refund_no,// 商户退款单号
+            'total_fee'       => $this->total_fee,// 订单总金额
+            'refund_fee'      => $this->refund_fee,// 退款总金额
+            'op_user_id'      => $this->operator_id,//操作员帐号, 默认为商户号
+            'refund_account'  => $this->refund_account,// 退款账户类型
+            'notify_url'      => $this->notifyUrl, // 退款通知 可以从config的 notify_url 加载通知退款回调地址
             // 服务商
-            'sub_appid' => $this->sub_appid,
-            'sub_mch_id' => $this->sub_mch_id,
+            'sub_appid'       => $this->sub_appid,
+            'sub_mch_id'      => $this->sub_mch_id,
         ];
 
         $this->retData = ArrayUtil::paraFilter($this->retData);
@@ -57,12 +57,12 @@ class RefundData extends WxBaseData
      */
     protected function checkDataParam()
     {
-        $refundNo = $this->refund_no;// 商户退款单号
+        $refundNo      = $this->refund_no;// 商户退款单号
         $transactionId = $this->transaction_id;
-        $outTradeNo = $this->out_trade_no;
-        $totalFee = $this->total_fee;
-        $refundFee = $this->refund_fee;
-        $operatorId = $this->operator_id;
+        $outTradeNo    = $this->out_trade_no;
+        $totalFee      = $this->total_fee;
+        $refundFee     = $this->refund_fee;
+        $operatorId    = $this->operator_id;
         $refundAccount = $this->refund_account;// 退款账户
 
         if (empty($refundNo)) {
@@ -74,20 +74,20 @@ class RefundData extends WxBaseData
             throw new PayException('必须提供微信交易号或商户网站唯一订单号。建议使用微信交易号');
         }
 
-        $this->total_fee = bcmul($totalFee, 100, 0);// 微信以分为单位
+        $this->total_fee  = bcmul($totalFee, 100, 0);// 微信以分为单位
         $this->refund_fee = bcmul($refundFee, 100, 0);
 
         if (bccomp($refundFee, $totalFee, 2) === 1) {
             throw new PayException('退款金额不能大于订单总金额');
         }
 
-        if (! in_array($refundAccount, [WxConfig::REFUND_RECHARGE, WxConfig::REFUND_UNSETTLED])) {
+        if (!in_array($refundAccount, [WxConfig::REFUND_RECHARGE, WxConfig::REFUND_UNSETTLED])) {
             $this->refund_account = WxConfig::REFUND_UNSETTLED;
         }
 
         // 该接口，微信配置文件，必须提供cert  key  两个pem文件
         $certPath = $this->appCertPem;
-        $keyPath = $this->appKeyPem;
+        $keyPath  = $this->appKeyPem;
         if (empty($certPath)) {
             throw new PayException('退款接口，必须提供 apiclient_cert.pem 证书');
         }

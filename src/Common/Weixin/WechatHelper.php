@@ -1,4 +1,5 @@
 <?php
+
 namespace Payment\Common\Weixin;
 
 use GuzzleHttp\Client;
@@ -32,11 +33,11 @@ class WechatHelper extends WxBaseData
 
         $url = self::SANDBOX_URL;
 
-        $client = new Client([
+        $client  = new Client([
             'timeout' => '10.0'
         ]);
         $options = [
-            'body' => $xml,
+            'body'        => $xml,
             'http_errors' => false
         ];
 

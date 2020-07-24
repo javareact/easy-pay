@@ -35,20 +35,20 @@ class TransferData extends WxBaseData
     protected function buildData()
     {
         $this->retData = [
-            'mch_appid' => $this->appId,
-            'mchid'    => $this->mchId,
-            'device_info' => $this->terminal_id,
-            'nonce_str' => $this->nonceStr,
-            'partner_trade_no'    => $this->trans_no,
-            'openid'    => $this->openid,
+            'mch_appid'        => $this->appId,
+            'mchid'            => $this->mchId,
+            'device_info'      => $this->terminal_id,
+            'nonce_str'        => $this->nonceStr,
+            'partner_trade_no' => $this->trans_no,
+            'openid'           => $this->openid,
 
-            'check_name'    => $this->check_name,
-            're_user_name'  => $this->payer_real_name,
-            'amount'    => $this->amount,// 此处需要处理单位为分
-            'desc'  => $this->desc,
+            'check_name'       => $this->check_name,
+            're_user_name'     => $this->payer_real_name,
+            'amount'           => $this->amount,// 此处需要处理单位为分
+            'desc'             => $this->desc,
 
             // $_SERVER["REMOTE_ADDR"]  获取客户端接口。此处获取php所在机器的ip  如果无法获取，则使用该ip
-            'spbill_create_ip'  => $this->client_ip,
+            'spbill_create_ip' => $this->client_ip,
         ];
 
         $this->retData = ArrayUtil::paraFilter($this->retData);
@@ -59,12 +59,12 @@ class TransferData extends WxBaseData
      */
     protected function checkDataParam()
     {
-        $openId = $this->openid;
-        $transNo = $this->trans_no;
+        $openId    = $this->openid;
+        $transNo   = $this->trans_no;
         $checkName = $this->check_name;
-        $realName = $this->payer_real_name;
-        $amount = $this->amount;
-        $clientIp = $this->client_ip;
+        $realName  = $this->payer_real_name;
+        $amount    = $this->amount;
+        $clientIp  = $this->client_ip;
 
         if (empty($openId)) {
             throw new PayException('商户appid下，某用户的openid 必须传入');
