@@ -7,8 +7,6 @@ use Payment\Config;
 use Payment\TransferContext;
 
 /**
- * @author: admin
- * @createTime: 2017-09-02 18:20
  * @description: 转账操作客户端接口
  *
  * Class Transfer

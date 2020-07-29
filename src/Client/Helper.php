@@ -8,7 +8,6 @@ use Payment\HelperContext;
 
 /**
  * @author: admin
- * @createTime: 2017-09-02 18:20
  * @description: 招商银行的辅助类
  *
  * Class Helper

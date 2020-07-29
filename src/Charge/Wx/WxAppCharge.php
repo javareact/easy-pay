@@ -1,4 +1,5 @@
 <?php
+
 namespace Payment\Charge\Wx;
 
 use Payment\Common\Weixin\Data\BackAppChargeData;
@@ -7,7 +8,6 @@ use Payment\Common\Weixin\WxBaseStrategy;
 
 /**
  * @author: admin
- * @createTime: 2016-07-14 17:56
  * @description: 微信 app 支付接口
  */
 class WxAppCharge extends WxBaseStrategy
@@ -39,10 +39,8 @@ class WxAppCharge extends WxBaseStrategy
     protected function retData(array $ret)
     {
         $back = new BackAppChargeData($this->config, $ret);
-
         $back->setSign();
         $backData = $back->getData();
-
         return $backData;
     }
 }

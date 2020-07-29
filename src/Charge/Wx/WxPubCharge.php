@@ -40,14 +40,11 @@ class WxPubCharge extends WxBaseStrategy
     protected function retData(array $ret)
     {
         $back = new BackPubChargeData($this->config, $ret);
-
         $back->setSign();
-        $backData = $back->getData();
-
+        $backData            = $back->getData();
         $backData['paySign'] = $backData['sign'];
         // 移除sign
         unset($backData['sign']);
-
         // 公众号支付返回数组结构
         return $backData;
     }

@@ -7,8 +7,6 @@ use Payment\Common\PayException;
 use Payment\Config;
 
 /**
- * @author: IT
- * @createTime: 2018-03-07 18:20
  * @description: 红包
  * Class Red
  * @package Payment\Client
@@ -18,7 +16,6 @@ class Red
 {
     private static $supportChannel = [
         Config::ALI_RED,// 支付宝红包
-
         Config::WX_RED,// 微信红包
     ];
 

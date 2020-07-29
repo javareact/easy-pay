@@ -8,7 +8,6 @@ use Payment\Utils\StrUtil;
 
 /**
  * @author: admin
- * @createTime: 2016-07-15 14:56
  * @description: 微信配置文件
  */
 final class WxConfig extends ConfigInterface

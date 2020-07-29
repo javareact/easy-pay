@@ -4,7 +4,6 @@ namespace Payment\Common;
 
 /**
  * @author: admin
- * @createTime: 2016-07-15 17:42
  * @description: 配置文件接口，主要提供返回属性数组的功能
  */
 abstract class ConfigInterface

@@ -8,7 +8,6 @@ use Payment\QueryContext;
 
 /**
  * @author: admin
- * @createTime: 2017-09-02 18:20
  * @description: 查询的客户端类
  *
  * Class Query

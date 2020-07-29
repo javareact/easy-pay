@@ -27,10 +27,9 @@ class NotifyContext
     /**
      * 设置对应的通知渠道
      * @param string $channel 通知渠道
-     *  - @param array $config 配置文件
+     * @param array $config 配置文件
      * @throws PayException
      * @see Config
-     *
      */
     public function initNotify($channel, array $config)
     {

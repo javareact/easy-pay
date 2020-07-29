@@ -7,7 +7,6 @@ use Payment\Common\Weixin\WxBaseStrategy;
 
 /**
  * @author: admin
- * @createTime: 2017-03-06 18:29
  * @description: 微信 刷卡支付  对应支付宝的条码支付
  */
 class WxBarCharge extends WxBaseStrategy
@@ -28,11 +27,9 @@ class WxBarCharge extends WxBaseStrategy
     {
         $ret['total_fee'] = bcdiv($ret['total_fee'], 100, 2);
         $ret['cash_fee']  = bcdiv($ret['cash_fee'], 100, 2);
-
         if ($this->config->returnRaw) {
             return $ret;
         }
-
         return $ret;
     }
 }

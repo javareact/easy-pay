@@ -7,7 +7,6 @@ use Payment\Common\Ali\Data\Charge\AppChargeData;
 
 /**
  * @author: admin
- * @createTime: 2016-07-14 18:20
  * @description: 支付宝移动支付接口
  */
 class AliAppCharge extends AliBaseStrategy
@@ -34,7 +33,6 @@ class AliAppCharge extends AliBaseStrategy
     protected function retData(array $data)
     {
         $data = parent::retData($data);
-
         // 组装成 key=value&key=value 形式返回
         return http_build_query($data);
     }

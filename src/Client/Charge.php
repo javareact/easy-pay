@@ -8,7 +8,6 @@ use Payment\Config;
 
 /**
  * @author: admin
- * @createTime: 2017-09-02 18:20
  * @description: 支付的客户端类
  * Class Charge
  * @package Payment\Client

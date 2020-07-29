@@ -7,7 +7,6 @@ use Payment\Utils\ArrayUtil;
 
 /**
  * @author: admin
- * @createTime: 2016-07-28 18:05
  * @description: 支付相关接口的数据基类
  *
  * Class BaseData
